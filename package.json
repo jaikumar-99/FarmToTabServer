@@ -1,0 +1,21 @@
+{
+  "name": "farmtotabserver",
+  "version": "1.0.0",
+  "description": "Farm To Table Server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Jai",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.2.4",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5"
+  }
+}
