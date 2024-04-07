@@ -82,9 +82,11 @@ export const loginUser = async (req, res, next) => {
         const tokenCreds = {
           email: userDetails.email,
           userId: userDetails._id,
+          role: newUserDetails.role,
         };
         result.data = {
           email: userDetails.email,
+          role: userDetails.role,
         };
         result.accessToken = await generateToken(tokenCreds);
         result.message = "Login successfully!";
@@ -139,9 +141,11 @@ export const signUpUser = async (req, res, next) => {
       const tokenCreds = {
         email: newUserDetails.email,
         userId: newUserDetails._id,
+        role: newUserDetails.role,
       };
       result.data = {
         email: newUserDetails.email,
+        role: newUserDetails.role,
       };
 
       result.accessToken = await generateToken(tokenCreds);
@@ -155,6 +159,30 @@ export const signUpUser = async (req, res, next) => {
     result.success = false;
     result.message = "Unable to signup!";
   }
+  const output = await parseOutput(result);
+  res.send(output);
+};
+
+export const fetchUserDetails = async (req, res, next) => {
+  const result = {
+    success: true,
+    message: "",
+    data: {},
+  };
+
+  try {
+    const userCredentials = req.user;
+    const userDetails = await usersModel.findOne(
+      { email: userCredentials.email },
+      { password: 0 }
+    );
+    result.data = userDetails;
+    result.message = "User details fetched!";
+  } catch (error) {
+    result.success = false;
+    result.message = "Unable to fetch the details!";
+  }
+
   const output = await parseOutput(result);
   res.send(output);
 };

@@ -7,7 +7,9 @@ import {
   deleteUser,
   loginUser,
   signUpUser,
+  fetchUserDetails,
 } from "../controllers/userController.js";
+import { authenticateToken } from "../middlewares.js";
 
 const userRouter = Router();
 
@@ -23,5 +25,6 @@ userRouter.post("/deleteUser", deleteUser);
 // login user
 userRouter.post("/user/login", loginUser);
 userRouter.post("/user/signup", signUpUser);
+userRouter.post("/user/details", authenticateToken, fetchUserDetails);
 
 export default userRouter;
