@@ -28,23 +28,26 @@ export const postUsers = async (req, res, next) => {
 
 // fetch users
 export const getUsers = async (req, res, next) => {
-    const response = {
-        success: true,
-        message: "",
-        accessToken: "",
-        data: [],
-    }
-  await usersModel.find().then(async (result) => {
-    console.log(result, "result");
-    response.message = "Users fetched successfully";
-    response.data = result;
-    const output = await parseOutput(response);
-    res.status(200).send(output);
-  }).catch((err) => {
-    response.success = false;
-    response.message = "Users fetching failed";
-    response.data = [];
-  });
+  const response = {
+    success: true,
+    message: "",
+    accessToken: "",
+    data: [],
+  };
+  await usersModel
+    .find()
+    .then(async (result) => {
+      console.log(result, "result");
+      response.message = "Users fetched successfully";
+      response.data = result;
+      const output = await parseOutput(response);
+      res.status(200).send(output);
+    })
+    .catch((err) => {
+      response.success = false;
+      response.message = "Users fetching failed";
+      response.data = [];
+    });
 };
 
 // update user
@@ -60,7 +63,7 @@ export const updateUsers = async (req, res, next) => {
 
 // delete user
 export const deleteUser = async (req, res, next) => {
-  let payload =  await parseBody(req.body);
+  let payload = await parseBody(req.body);
   let userId = payload.id;
   const response = {
     success: true,
@@ -68,16 +71,19 @@ export const deleteUser = async (req, res, next) => {
     accessToken: "",
   };
   console.log("Entered Route", userId);
-  await usersModel.deleteOne({ _id: userId }).then(async (result) => {
-    console.log(result, "result");
-    response.message = "User deleted successfully";
-    // response.data = result;
-    const output = await parseOutput(response);
-    res.status(200).send(output);
-  }).catch((err) => {
-    response.success = false;
-    response.message = "Users deletion failed";
-  });;
+  await usersModel
+    .deleteOne({ _id: userId })
+    .then(async (result) => {
+      console.log(result, "result");
+      response.message = "User deleted successfully";
+      // response.data = result;
+      const output = await parseOutput(response);
+      res.status(200).send(output);
+    })
+    .catch((err) => {
+      response.success = false;
+      response.message = "Users deletion failed";
+    });
 };
 
 // login users
@@ -206,6 +212,67 @@ export const fetchUserDetails = async (req, res, next) => {
   } catch (error) {
     result.success = false;
     result.message = "Unable to fetch the details!";
+  }
+
+  const output = await parseOutput(result);
+  res.send(output);
+};
+
+export const updateUserProfile = async (req, res, next) => {
+  const result = {
+    success: true,
+    message: "",
+    data: {},
+  };
+
+  try {
+    const payload = await parseBody(req.body);
+    console.log(payload);
+
+    const schema = Joi.object({
+      profilename: Joi.string().min(4),
+      mobile: Joi.string().min(4),
+      pincode: Joi.string().min(4),
+      landmark: Joi.string().min(4),
+      state: Joi.string().min(2),
+      country: Joi.string().min(2),
+      totalland: Joi.number(),
+    });
+
+    const value = await schema.validateAsync(payload);
+    console.log("user Input", value);
+
+    const userCredentials = req.user;
+    const userDetails = await usersModel.findOne(
+      { email: userCredentials.email },
+      { password: 0 }
+    );
+
+    if (userDetails?.email) {
+      await userDetails.updateOne({
+        profilename: value.profilename,
+        mobile: value.mobile,
+        pincode: value.pincode,
+        landmark: value.landmark,
+        state: value.state,
+        country: value.country,
+        totalland: value.totalland,
+      });
+    }
+
+    const updatedDetails = await usersModel.findOne(
+      { email: userCredentials.email },
+      { password: 0 }
+    );
+
+    console.log(updatedDetails);
+
+    result.data = userDetails;
+    result.message = "User details updated!";
+  } catch (error) {
+    console.log(error);
+    result.success = false;
+    result.message = "Unable to update the details!";
   }
 
   const output = await parseOutput(result);

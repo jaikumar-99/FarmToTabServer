@@ -18,6 +18,14 @@ const userSchema = new Schema(
       required: true,
     },
     status: { type: Number, required: true, default: 1 },
+
+    profilename: { type: String },
+    mobile: { type: String },
+    pincode: { type: String },
+    landmark: { type: String },
+    state: { type: String },
+    country: { type: String },
+    totalland: { type: Number },
   },
   { timestamps: true }
 );

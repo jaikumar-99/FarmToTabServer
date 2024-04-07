@@ -8,6 +8,7 @@ import {
   loginUser,
   signUpUser,
   fetchUserDetails,
+  updateUserProfile,
 } from "../controllers/userController.js";
 import { authenticateToken } from "../middlewares.js";
 
@@ -26,5 +27,6 @@ userRouter.post("/deleteUser", deleteUser);
 userRouter.post("/user/login", loginUser);
 userRouter.post("/user/signup", signUpUser);
 userRouter.post("/user/details", authenticateToken, fetchUserDetails);
+userRouter.post("/user/profile_update", authenticateToken, updateUserProfile);
 
 export default userRouter;
