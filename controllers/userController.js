@@ -28,9 +28,22 @@ export const postUsers = async (req, res, next) => {
 
 // fetch users
 export const getUsers = async (req, res, next) => {
-  await usersModel.find().then((result) => {
+    const response = {
+        success: true,
+        message: "",
+        accessToken: "",
+        data: [],
+    }
+  await usersModel.find().then(async (result) => {
     console.log(result, "result");
-    res.status(200).json({ final: result });
+    response.message = "Users fetched successfully";
+    response.data = result;
+    const output = await parseOutput(response);
+    res.status(200).send(output);
+  }).catch((err) => {
+    response.success = false;
+    response.message = "Users fetching failed";
+    response.data = [];
   });
 };
 
@@ -47,12 +60,24 @@ export const updateUsers = async (req, res, next) => {
 
 // delete user
 export const deleteUser = async (req, res, next) => {
-  let userId = req.body.id;
+  let payload =  await parseBody(req.body);
+  let userId = payload.id;
+  const response = {
+    success: true,
+    message: "",
+    accessToken: "",
+  };
   console.log("Entered Route", userId);
-  await usersModel.deleteOne({ _id: userId }).then((result) => {
+  await usersModel.deleteOne({ _id: userId }).then(async (result) => {
     console.log(result, "result");
-    res.status(200).json({ final: result });
-  });
+    response.message = "User deleted successfully";
+    // response.data = result;
+    const output = await parseOutput(response);
+    res.status(200).send(output);
+  }).catch((err) => {
+    response.success = false;
+    response.message = "Users deletion failed";
+  });;
 };
 
 // login users

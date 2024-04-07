@@ -14,7 +14,7 @@ import { authenticateToken } from "../middlewares.js";
 const userRouter = Router();
 
 // fetch users
-userRouter.get("/getuser", getUsers);
+userRouter.post("/getuser", getUsers);
 // add users
 userRouter.post("/addUser", postUsers);
 // update users
