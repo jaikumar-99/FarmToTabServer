@@ -1,24 +1,25 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import { Schema, Types, model } from "mongoose";
 
-const CropSchema = new Schema({
+const CropSchema = new Schema(
+  {
     CropId: {
-        type: mongoose.Types.ObjectId
-    }
-    ,
+      type: Types.ObjectId,
+    },
     CropType: {
-        type: String,
-        required: true
-    }
-    ,
+      type: String,
+      required: true,
+    },
     CropName: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     CropImage: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-},{timestamps: true})
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Crops', CropSchema)
+const cropModel = model("Crops", CropSchema);
+export default cropModel;

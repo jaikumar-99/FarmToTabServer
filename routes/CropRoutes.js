@@ -1,14 +1,20 @@
-const express = require('express')
+import { Router } from "express";
 
-const router = express.Router();
-const cropController = require('../controllers/CropController');
-// fetch crops 
-router.get('/getcropslist', cropController.croplist);  
+import {
+  croplist,
+  postcrops,
+  deleteCrop,
+} from "../controllers/CropController.js";
+
+const cropRouter = Router();
+
+// fetch crops
+cropRouter.get("/getcropslist", croplist);
 // add users
-router.post('/addcrop', cropController.postcrops);
+cropRouter.post("/addcrop", postcrops);
 // update users
 // router.post('/updateUser', cropController.updateUsers);
 // delete user
-router.post('/deletecrop', cropController.deleteCrop);
+cropRouter.post("/deletecrop", deleteCrop);
 
-module.exports = router;
+export default cropRouter;

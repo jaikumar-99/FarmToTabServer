@@ -1,19 +1,24 @@
-const http = require('http')
-const express = require('express')
-const mongoose = require('mongoose');
-const app = express()
-const bodyParser = require('body-parser');
-const FarmModels = require('./models/crop');
-const cors = require('cors')
+import cors from "cors";
+import express from "express";
+import { config } from "dotenv";
+import { connect } from "mongoose";
+import bodyparser from "body-parser";
+import userRouter from "./routes/UserRoutes.js";
+import cropRouter from "./routes/CropRoutes.js";
+
+config();
+const { DB_ACCESS, PORT } = process.env;
+const app = express();
 
 app.use(cors());
-app.use(FarmModels)
-app.use(bodyParser.json())
-console.log("server is running")
-mongoose.connect('mongodb+srv://JaiKumar:Sjaikumar@cluster0.vzeczb5.mongodb.net/FramToTab').then(()=> {
-    app.listen(3000)
-}).catch((err)=> {
-    console.log(err)
-})
+app.use(bodyparser.json());
+app.use(userRouter, cropRouter);
 
-
+connect(DB_ACCESS)
+  .then(() => {
+    app.listen(PORT);
+    console.log("server is running");
+  })
+  .catch((err) => {
+    console.log("Unable to run the server", err);
+  });
