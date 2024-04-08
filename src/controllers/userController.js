@@ -132,7 +132,7 @@ export const loginUser = async (req, res, next) => {
       result.message = "Username or Password mismatch!";
     }
   } catch (error) {
-    console.log(error);
+    console.log(error, "error");
     result.success = false;
     result.message = "Unable to login!";
   }

@@ -5,17 +5,20 @@ const CropSchema = new Schema(
     CropId: {
       type: Types.ObjectId,
     },
-    CropType: {
+    croptype: {
       type: String,
       required: true,
     },
-    CropName: {
+    cropname: {
+      type: String,
+      required: true,
+    },
+    cropcode: {
       type: String,
       required: true,
     },
     CropImage: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }

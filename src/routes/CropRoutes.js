@@ -4,16 +4,17 @@ import {
   croplist,
   postcrops,
   deleteCrop,
+  updatecrops,
 } from "../controllers/CropController.js";
 
 const cropRouter = Router();
 
 // fetch crops
-cropRouter.get("/getcropslist", croplist);
+cropRouter.post("/getcropslist", croplist);
 // add users
 cropRouter.post("/addcrop", postcrops);
 // update users
-// router.post('/updateUser', cropController.updateUsers);
+cropRouter.post("/updatecrop", updatecrops);
 // delete user
 cropRouter.post("/deletecrop", deleteCrop);
 

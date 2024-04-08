@@ -15,7 +15,7 @@ import { authenticateToken } from "../middlewares.js";
 const userRouter = Router();
 
 userRouter.get("/", (req, res) => {
-  res.send('Farm To Table is running!');
+  res.send("Farm To Table is running!");
 });
 
 // fetch users
