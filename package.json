@@ -2,16 +2,18 @@
   "name": "farmtotabserver",
   "version": "1.0.0",
   "description": "Farm To Table Server",
-  "main": "app.js",
+  "main": "src/app.js",
   "type": "module",
-  "exports": "./app.js",
+  "exports": "./src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon src/app.js",
+    "prod": "nodemon src/app.js"
   },
   "author": "Jai",
   "license": "ISC",
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.4",
     "nodemon": "^3.1.0"
   },
   "dependencies": {
