@@ -113,7 +113,7 @@ export const loginUser = async (req, res, next) => {
         const tokenCreds = {
           email: userDetails.email,
           userId: userDetails._id,
-          role: newUserDetails.role,
+          role: userDetails.role,
         };
         result.data = {
           email: userDetails.email,
@@ -130,6 +130,7 @@ export const loginUser = async (req, res, next) => {
       result.message = "Username or Password mismatch!";
     }
   } catch (error) {
+    console.log(error, 'error');
     result.success = false;
     result.message = "Unable to login!";
   }
