@@ -5,6 +5,8 @@ import { connect } from "mongoose";
 import bodyparser from "body-parser";
 import userRouter from "./routes/UserRoutes.js";
 import cropRouter from "./routes/CropRoutes.js";
+import productRouter from "./routes/ProductRoute.js";
+import OrdersRouter from "./routes/OrderRoutes.js";
 
 config();
 const { DB_ACCESS, PORT } = process.env;
@@ -13,7 +15,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyparser.json());
-app.use(userRouter, cropRouter);
+app.use(userRouter, cropRouter,productRouter,OrdersRouter);
 
 connect(DB_ACCESS)
   .then(() => {
