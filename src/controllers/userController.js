@@ -35,7 +35,7 @@ export const getUsers = async (req, res, next) => {
     data: [],
   };
   await usersModel
-    .find({role:{$ne: 3}})
+    .find({ role: { $ne: 3 } })
     .then(async (result) => {
       console.log(result, "result");
       response.message = "Users fetched successfully";
@@ -46,8 +46,8 @@ export const getUsers = async (req, res, next) => {
       response.message = "Users fetching failed";
       response.data = [];
     });
-    const output = await parseOutput(response);
-    res.status(200).send(output);
+  const output = await parseOutput(response);
+  res.status(200).send(output);
 };
 
 // update user
@@ -82,8 +82,8 @@ export const deleteUser = async (req, res, next) => {
       response.success = false;
       response.message = "Users deletion failed";
     });
-    const output = await parseOutput(response);
-    res.status(200).send(output);
+  const output = await parseOutput(response);
+  res.status(200).send(output);
 };
 
 // login users
@@ -262,7 +262,7 @@ export const updateUserProfile = async (req, res, next) => {
         state: value.state,
         country: value.country,
         totalland: value.totalland,
-      });
+      }).where({_id: userCredentials.userId});
     }
 
     const updatedDetails = await usersModel.findOne(
@@ -272,7 +272,7 @@ export const updateUserProfile = async (req, res, next) => {
 
     console.log(updatedDetails);
 
-    result.data = userDetails;
+    result.data = updatedDetails;
     result.message = "User details updated!";
   } catch (error) {
     console.log(error);

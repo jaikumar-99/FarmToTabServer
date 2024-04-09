@@ -21,7 +21,7 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
     },
-    userId: {type: String, required: true},
+    userId: {type: String, required: true, ref:'user'},
     price: { type: Number, required: true},
     qty: { type: Number, required: true},
     profilename: { type: String, required: true },

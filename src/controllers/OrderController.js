@@ -81,7 +81,7 @@ export const fetchOrders = async (req, res, next) => {
         if(userCredentials.role !=3) {
             cond = {consumerId: userCredentials.userId}
         }
-    await OrdersModel.find(cond).then(async (result) => {
+    await OrdersModel.find(cond).populate('consumerId',{password: 0}).populate('pownerId',{password: 0}).then(async (result) => {
       console.log(result, "result");
       response.message = "Orders fetched successfully!!!";
         response.data = result;

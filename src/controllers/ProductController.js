@@ -59,7 +59,8 @@ export const fetchproducts = async (req, res, next) => {
       accessToken: "",
       data: [],
     };
-    await ProductModel.find().then(async (result) => {
+    const userCredentials = req.user;
+    await ProductModel.find().where({userId:{$ne: userCredentials.userId}}).populate('userId').then(async (result) => {
       console.log(result, "result");
       response.message = "Products fetched successfully";
         response.data = result;
