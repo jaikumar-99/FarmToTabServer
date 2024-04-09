@@ -73,7 +73,15 @@ export const fetchOrders = async (req, res, next) => {
       accessToken: "",
       data: [],
     };
-    await OrdersModel.find().then(async (result) => {
+
+    const userCredentials = req.user;
+    console.log(userCredentials, "userCredentials");
+    let cond = {};
+    if(userCredentials?.role) {
+        if(userCredentials.role !=3) {
+            cond = {consumerId: userCredentials.userId}
+        }
+    await OrdersModel.find(cond).then(async (result) => {
       console.log(result, "result");
       response.message = "Orders fetched successfully!!!";
         response.data = result;
@@ -83,5 +91,15 @@ export const fetchOrders = async (req, res, next) => {
       response.data = [];
     });
     const output = await parseOutput(response);
+res.status(200).send(output);
+} else {
+    const response = {
+        success: false,
+        message: "Invalid user",
+        accessToken: "",
+        data: [],
+      };
+      const output = await parseOutput(response);
     res.status(200).send(output);
+}
   };

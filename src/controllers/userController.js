@@ -35,7 +35,7 @@ export const getUsers = async (req, res, next) => {
     data: [],
   };
   await usersModel
-    .find()
+    .find({role:{$ne: 3}})
     .then(async (result) => {
       console.log(result, "result");
       response.message = "Users fetched successfully";
@@ -238,6 +238,7 @@ export const updateUserProfile = async (req, res, next) => {
       pincode: Joi.string().min(4),
       landmark: Joi.string().min(4),
       state: Joi.string().min(2),
+      role: Joi.number().required(),
       country: Joi.string().min(2),
       totalland: Joi.number(),
     });
@@ -257,6 +258,7 @@ export const updateUserProfile = async (req, res, next) => {
         mobile: value.mobile,
         pincode: value.pincode,
         landmark: value.landmark,
+        role: value.role,
         state: value.state,
         country: value.country,
         totalland: value.totalland,

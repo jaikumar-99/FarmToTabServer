@@ -19,13 +19,13 @@ userRouter.get("/", (req, res) => {
 });
 
 // fetch users
-userRouter.post("/getuser", getUsers);
+userRouter.post("/getuser",authenticateToken, getUsers);
 // add users
-userRouter.post("/addUser", postUsers);
+userRouter.post("/addUser",authenticateToken, postUsers);
 // update users
-userRouter.post("/updateUser", updateUsers);
+userRouter.post("/updateUser",authenticateToken, updateUsers);
 // delete user
-userRouter.post("/deleteUser", deleteUser);
+userRouter.post("/deleteUser",authenticateToken, deleteUser);
 
 // login user
 userRouter.post("/user/login", loginUser);
