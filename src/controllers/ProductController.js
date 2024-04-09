@@ -35,7 +35,6 @@ export const addproducts = async (req, res, next) => {
       response.success = true;
       response.message = "Product Added Successfully!!!"
       console.log(result, "resss");
-      res.status(200).send(response);
     })
     .catch((err) => {
       response.success = false;
@@ -46,8 +45,9 @@ export const addproducts = async (req, res, next) => {
       console.log(error);
       response.success = false;
       response.message = "Unable to add products";
-      res.status(200).send(response);
     }
+    const output = await parseOutput(response);
+    res.status(200).send(output);
   };
 
 
@@ -63,11 +63,11 @@ export const fetchproducts = async (req, res, next) => {
       console.log(result, "result");
       response.message = "Products fetched successfully";
         response.data = result;
-        const output = await parseOutput(response);
-        res.status(200).send(output);
     }).catch((err) => {
       response.success = false;
       response.message = "Products fetching failed";
       response.data = [];
-    });;
+    });
+    const output = await parseOutput(response);
+    res.status(200).send(output);
   };

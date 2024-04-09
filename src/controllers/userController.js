@@ -40,14 +40,14 @@ export const getUsers = async (req, res, next) => {
       console.log(result, "result");
       response.message = "Users fetched successfully";
       response.data = result;
-      const output = await parseOutput(response);
-      res.status(200).send(output);
     })
     .catch((err) => {
       response.success = false;
       response.message = "Users fetching failed";
       response.data = [];
     });
+    const output = await parseOutput(response);
+    res.status(200).send(output);
 };
 
 // update user
@@ -77,13 +77,13 @@ export const deleteUser = async (req, res, next) => {
       console.log(result, "result");
       response.message = "User deleted successfully";
       // response.data = result;
-      const output = await parseOutput(response);
-      res.status(200).send(output);
     })
     .catch((err) => {
       response.success = false;
       response.message = "Users deletion failed";
     });
+    const output = await parseOutput(response);
+    res.status(200).send(output);
 };
 
 // login users

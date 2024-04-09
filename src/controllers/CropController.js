@@ -29,13 +29,12 @@ export const postcrops = async (req, res, next) => {
     if(!CropDetails?.cropname) {
   await cropModel
     .insertMany([value])
-    .then((result) => {
+    .then(async (result) => {
       response.success = true;
       response.message = "Crop Added Successfully!!!"
       console.log(result, "resss");
-      res.status(200).send(response);
     })
-    .catch((err) => {
+    .catch(async (err) => {
       response.success = false;
       response.message = "Crop adding failed!!!"
       console.log(err);
@@ -43,8 +42,9 @@ export const postcrops = async (req, res, next) => {
   } else {
     response.success = false;
     response.message = "Crop already exists!!!"
-    res.status(200).send(response);
   }
+  const output = await parseOutput(response);
+  res.status(200).send(output);
 };
 
 // fetch crops
@@ -59,13 +59,13 @@ export const croplist = async (req, res, next) => {
     console.log(result, "result");
     response.message = "Crops fetched successfully";
       response.data = result;
-      const output = await parseOutput(response);
-      res.status(200).send(output);
-  }).catch((err) => {
+  }).catch(async (err) => {
     response.success = false;
     response.message = "Crops fetching failed";
     response.data = [];
   });;
+  const output = await parseOutput(response);
+  res.status(200).send(output);
 };
 
 // update Crops
@@ -94,8 +94,6 @@ export const updatecrops = async (req,res,next) => {
     await cropModel.updateOne({_id:cropId},{$set: obj}).then(async(resp) => {
       response.message = "Updated crops successfully!!!";
       // response.data = result;
-      const output = await parseOutput(response);
-      res.status(200).send(output);
     }).catch((err)=> {
       response.success = false;
       response.message = "Unable to update the details!!!";
@@ -110,6 +108,8 @@ export const updatecrops = async (req,res,next) => {
     response.success = false;
     response.message = "Unable to update the details!!!";
   }
+  const output = await parseOutput(response);
+  res.status(200).send(output);
 }
 
 // delete user
@@ -124,10 +124,11 @@ export const deleteCrop = async (req, res, next) => {
   await cropModel.deleteOne({ _id: cropId }).then(async (result) => {
     response.message = "Crops deleted successfully!!!";
       // response.data = result;
-      const output = await parseOutput(response);
-      res.status(200).send(output);
+      
   }).catch((err) => {
     response.success = false;
     response.message = "Crops deletion failed!!!";
-  });;
+  });
+  const output = await parseOutput(response);
+      res.status(200).send(output);
 };

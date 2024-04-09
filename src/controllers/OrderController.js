@@ -49,19 +49,19 @@ export const addOrders = async (req, res, next) => {
       response.success = true;
       response.message = "Products purchased Successfully!!!"
       console.log(result, "resss");
-      res.status(200).send(response);
     })
-    .catch((err) => {
-      response.success = false;
-      response.message = "Products purchasing failed!!!"
-      console.log(err);
-    });
+    // .catch((err) => {
+    //   response.success = false;
+    //   response.message = "Products purchasing failed!!!"
+    //   console.log(err);
+    // });
     } catch (error) {
       console.log(error);
       response.success = false;
       response.message = "Unable to purchase products";
-      res.status(200).send(response);
     }
+    const output = await parseOutput(response);
+    res.status(200).send(output);
   };
 
 
@@ -77,11 +77,11 @@ export const fetchOrders = async (req, res, next) => {
       console.log(result, "result");
       response.message = "Orders fetched successfully!!!";
         response.data = result;
-        const output = await parseOutput(response);
-        res.status(200).send(output);
-    }).catch((err) => {
+    }).catch(async (err) => {
       response.success = false;
       response.message = "Orders fetching failed!!!";
       response.data = [];
-    });;
+    });
+    const output = await parseOutput(response);
+    res.status(200).send(output);
   };
