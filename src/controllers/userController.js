@@ -50,7 +50,7 @@ export const getUsers = async (req, res, next) => {
   res.status(200).send(output);
 };
 
-// update user
+// update users
 export const updateUsers = async (req, res, next) => {
   let obj = req.body.data;
   let userId = req.body.id;
